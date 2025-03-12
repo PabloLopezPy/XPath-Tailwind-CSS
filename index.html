@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Tailwind</title>
+    <link href="./dist/output.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <script src="./js/scraper.js" defer></script>
+    <style>
+        /* Animaciones personalizadas */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .animate-slide-up {
+            animation: slideUp 0.4s ease-out forwards;
+        }
+        
+        .animate-pulse-once {
+            animation: pulse 0.5s ease-in-out;
+        }
+        
+        .loading-shimmer {
+            background: linear-gradient(90deg, #2d3748 25%, #4a5568 50%, #2d3748 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-3xl">
+        <header class="mb-10 text-center">
+            <h1 class="text-3xl font-bold text-blue-400 mb-2">Proyecto XPath Tailwind</h1>
+            <p class="text-gray-400 text-sm">Recoge información con XPath</p>
+        </header>
+
+        <main>
+            <div class="bg-gray-800 rounded-lg p-6 mb-8">
+                <form id="scraperForm" class="space-y-5">
+                    <div class="transition-all duration-300 transform hover:translate-x-1">
+                        <label for="url" class="block text-sm font-medium text-gray-300 mb-1">URL</label>
+                        <input type="url" id="url" name="url" required
+                            class="w-full px-3 py-2 bg-gray-700 border-0 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-200 transition-all duration-300 hover:bg-gray-600">
+                    </div>
+                    
+                    <div class="transition-all duration-300 transform hover:translate-x-1">
+                        <label for="xpath" class="block text-sm font-medium text-gray-300 mb-1">XPath</label>
+                        <input type="text" id="xpath" name="xpath" required
+                            class="w-full px-3 py-2 bg-gray-700 border-0 rounded focus:outline-none focus:ring-1 focus:ring-blue-500 text-gray-200 transition-all duration-300 hover:bg-gray-600">
+                        <p class="text-xs text-gray-500 mt-1"></p>
+                    </div>
+                    
+                    <button type="submit" style="color: black;" 
+                        class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-2 px-4 rounded hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg">
+                        Analizar xpath de la url
+                    </button>
+                </form>
+            </div>
+
+            <div id="loading" class="hidden">
+                <div class="flex flex-col items-center">
+                    <div class="relative">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-400"></div>
+                        <div class="animate-spin rounded-full h-12 w-12 border-r-2 border-indigo-500 absolute top-0 left-0" style="animation-duration: 1.5s;"></div>
+                    </div>
+                    <div class="loading-shimmer w-32 h-5 mt-4 rounded">
+                        <span class="ml-3 text-gray-400">Procesando...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="error" class="hidden bg-gray-800 border-l-2 border-red-500 text-gray-300 p-4 mb-8 rounded">
+                <p id="errorMessage" class="text-sm"></p>
+            </div>
+
+            <div id="resultContainer" class="hidden">
+                <h2 class="text-lg font-medium mb-3 text-gray-300">Resultados</h2>
+                <div class="bg-gray-800 rounded-lg p-4">
+                    <p id="resultCount" class="text-xs text-gray-400 mb-4"></p>
+                    <div id="results" class="space-y-3"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="mt-12 text-center text-gray-600 text-xs">
+            <p>Buscador de XPath con asincronía</p>
+        </footer>
+    </div>
+</body>
+</html>
